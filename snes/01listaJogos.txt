@@ -1,5 +1,4 @@
 <option value="snes/'96 Zenkoku Koukou Soccer Senshuken (Japan).sfc">'96 Zenkoku Koukou Soccer Senshuken (Japan)</option>
-<option value="snes/007 - The World Is Not Enough (USA).z64">007 - The World Is Not Enough (USA)</option>
 <option value="snes/1080 TenEighty Snowboarding (Japan, USA) (En,Ja).z64">1080 TenEighty Snowboarding (Japan, USA) (En,Ja)</option>
 <option value="snes/16 Ton.bin">16 Ton</option>
 <option value="snes/16-Bit Rhythm Land.bin">16-Bit Rhythm Land</option>
@@ -258,7 +257,6 @@
 <option value="snes/Ballz.bin">Ballz</option>
 <option value="snes/Bananas de Pijamas.smc">Bananas de Pijamas</option>
 <option value="snes/Banjo-Kazooie (USA) (Rev 1).z64">Banjo-Kazooie (USA) (Rev 1)</option>
-<option value="snes/Banjo-Tooie (USA).z64">Banjo-Tooie (USA)</option>
 <option value="snes/Barbarossa (Japan).sfc">Barbarossa (Japan)</option>
 <option value="snes/Barbie Super Model (U).smc">Barbie Super Model (U)</option>
 <option value="snes/Barbie Super Model (USA).sfc">Barbie Super Model (USA)</option>
@@ -586,9 +584,7 @@
 <option value="snes/College Football USA '97 - The Road to New Orleans (U) [!].smc">College Football USA '97 - The Road to New Orleans (U) [!]</option>
 <option value="snes/College Slam Basketball (U) [!].smc">College Slam Basketball (U) [!]</option>
 <option value="snes/Combatribes, The (U).smc">Combatribes, The (U)</option>
-<option value="snes/Command & Conquer (USA).z64">Command & Conquer (USA)</option>
 <option value="snes/Congo's Caper (U).smc">Congo's Caper (U)</option>
-<option value="snes/Conker's Bad Fur Day (USA).z64">Conker's Bad Fur Day (USA)</option>
 <option value="snes/Contra III - The Alien Wars (U) [!].smc">Contra III - The Alien Wars (U) [!]</option>
 <option value="snes/Cool Spot (U) [!].smc">Cool Spot (U) [!]</option>
 <option value="snes/Cool World (U) [!].smc">Cool World (U) [!]</option>
@@ -619,8 +615,6 @@
 <option value="snes/Demon's Crest (U) [!].smc">Demon's Crest (U) [!]</option>
 <option value="snes/Demon's Crest (USA) (PT-BR).smc">Demon's Crest (USA) (PT-BR)</option>
 <option value="snes/Dennis the Menace (U).smc">Dennis the Menace (U)</option>
-<option value="snes/Densha de Go! 64 (Japan).z64">Densha de Go! 64 (Japan)</option>
-<option value="snes/Derby Stallion 64 (Japan).z64">Derby Stallion 64 (Japan)</option>
 <option value="snes/Desert Strike - Return to the Gulf (U) [!].smc">Desert Strike - Return to the Gulf (U) [!]</option>
 <option value="snes/Destruction Derby 64 (USA).z64">Destruction Derby 64 (USA)</option>
 <option value="snes/Dezaemon 3D (Japan).z64">Dezaemon 3D (Japan)</option>
