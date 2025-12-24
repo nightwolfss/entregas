@@ -13,12 +13,9 @@
 <option value="snes/3x3 Eyes - Juuma Houkan (Japan) (Translated En).sfc">3x3 Eyes - Juuma Houkan (Japan) (Translated En)</option>
 <option value="snes/3x3 Eyes - Seima Kourinden (Japan).sfc">3x3 Eyes - Seima Kourinden (Japan)</option>
 <option value="snes/4-nin Shougi (Japan).sfc">4-nin Shougi (Japan)</option>
-<option value="snes/40 Winks (Europe) (En,Es,It) (Proto) (1999-10-07).z64">40 Winks (Europe) (En,Es,It) (Proto) (1999-10-07)</option>
 <option value="snes/6-Pak.bin">6-Pak</option>
 <option value="snes/64 de Hakken!! Tamagotchi - Minna de Tamagotchi World (Japan).z64">64 de Hakken!! Tamagotchi - Minna de Tamagotchi World (Japan)</option>
 <option value="snes/64 Hanafuda - Tenshi no Yakusoku (Japan).z64">64 Hanafuda - Tenshi no Yakusoku (Japan)</option>
-<option value="snes/64 Oozumou (Japan).z64">64 Oozumou (Japan)</option>
-<option value="snes/64 Oozumou 2 (Japan).z64">64 Oozumou 2 (Japan)</option>
 <option value="snes/64 Trump Collection - Alice no Wakuwaku Trump World (Japan).z64">64 Trump Collection - Alice no Wakuwaku Trump World (Japan)</option>
 <option value="snes/688 Attack Sub.bin">688 Attack Sub</option>
 <option value="snes/777 Casino.bin">777 Casino</option>
@@ -143,7 +140,6 @@
 <option value="snes/Alien vs. Predator (USA) (PT-BR).smc">Alien vs. Predator (USA) (PT-BR)</option>
 <option value="snes/Alisia Dragoon.bin">Alisia Dragoon</option>
 <option value="snes/All Star Tennis 99 (USA).z64">All Star Tennis 99 (USA)</option>
-<option value="snes/All-Star Baseball 2000 (USA).z64">All-Star Baseball 2000 (USA)</option>
 <option value="snes/All-Star Baseball 2001 (USA).z64">All-Star Baseball 2001 (USA)</option>
 <option value="snes/All-Star Baseball 99 (USA).z64">All-Star Baseball 99 (USA)</option>
 <option value="snes/Altered Beast.bin">Altered Beast</option>
@@ -196,7 +192,6 @@
 <option value="snes/Arkanoid - Doh It Again (U) [!].smc">Arkanoid - Doh It Again (U) [!]</option>
 <option value="snes/Arkanoid - Doh It Again (USA).sfc">Arkanoid - Doh It Again (USA)</option>
 <option value="snes/Arkanoid - Doh It Again (USA).smc">Arkanoid - Doh It Again (USA)</option>
-<option value="snes/Armorines - Project S.W.A.R.M. (USA).z64">Armorines - Project S.W.A.R.M. (USA)</option>
 <option value="snes/Army Men - Air Combat (USA).z64">Army Men - Air Combat (USA)</option>
 <option value="snes/Army Men - Sarge's Heroes (USA).z64">Army Men - Sarge's Heroes (USA)</option>
 <option value="snes/Army Men - Sarge's Heroes 2 (USA).z64">Army Men - Sarge's Heroes 2 (USA)</option>
@@ -274,7 +269,6 @@
 <option value="snes/Bass Masters Classic - Pro Edition (USA).sfc">Bass Masters Classic - Pro Edition (USA)</option>
 <option value="snes/Bass Masters Classic Pro Edition.bin">Bass Masters Classic Pro Edition</option>
 <option value="snes/Bass Masters Classic.bin">Bass Masters Classic</option>
-<option value="snes/Bass Rush - ECOGEAR PowerWorm Championship (Japan).z64">Bass Rush - ECOGEAR PowerWorm Championship (Japan)</option>
 <option value="snes/Bassin's Black Bass (U).smc">Bassin's Black Bass (U)</option>
 <option value="snes/Bassin's Black Bass (USA).sfc">Bassin's Black Bass (USA)</option>
 <option value="snes/Bassmasters 2000 (USA).z64">Bassmasters 2000 (USA)</option>
@@ -773,12 +767,10 @@
 <option value="snes/Genghis Khan II - Clan of the Gray Wolf (U).smc">Genghis Khan II - Clan of the Gray Wolf (U)</option>
 <option value="snes/George Foreman's KO Boxing (U) (V1.1).smc">George Foreman's KO Boxing (U) (V1.1)</option>
 <option value="snes/Getter Love!! - Cho Renai Party Game Tanjou (Japan).z64">Getter Love!! - Cho Renai Party Game Tanjou (Japan)</option>
-<option value="snes/Gex 3 - Deep Cover Gecko (USA).z64">Gex 3 - Deep Cover Gecko (USA)</option>
 <option value="snes/Gex 64 - Enter the Gecko (USA).z64">Gex 64 - Enter the Gecko (USA)</option>
 <option value="snes/Ghoul Patrol (U).smc">Ghoul Patrol (U)</option>
 <option value="snes/Ghoul Patrol.smc">Ghoul Patrol</option>
 <option value="snes/Glover (USA).z64">Glover (USA)</option>
-<option value="snes/Glover 2 (USA) (Proto 2).z64">Glover 2 (USA) (Proto 2)</option>
 <option value="snes/Go Go Ackman (Japan) (Translated En) (PT-BR).smc">Go Go Ackman (Japan) (Translated En) (PT-BR)</option>
 <option value="snes/Go Go Ackman.smc">Go Go Ackman</option>
 <option value="snes/Gods (U) [!].smc">Gods (U) [!]</option>
@@ -822,7 +814,6 @@
 <option value="snes/Hunt for Red October, The (U) [!].smc">Hunt for Red October, The (U) [!]</option>
 <option value="snes/Hurricanes, The (U).smc">Hurricanes, The (U)</option>
 <option value="snes/Hybrid Heaven (USA).z64">Hybrid Heaven (USA)</option>
-<option value="snes/Hydro Thunder (USA).z64">Hydro Thunder (USA)</option>
 <option value="snes/Hyper V-Ball (U).smc">Hyper V-Ball (U)</option>
 <option value="snes/Hyper V-Ball (USA) (PT-BR).smc">Hyper V-Ball (USA) (PT-BR)</option>
 <option value="snes/HyperZone (U) [!].smc">HyperZone (U) [!]</option>
@@ -942,8 +933,6 @@
 <option value="snes/Legend of The Mystical Ninja, The (U) [!].smc">Legend of The Mystical Ninja, The (U) [!]</option>
 <option value="snes/Legend of Zelda, The - A Link to the Past (U) [!].smc">Legend of Zelda, The - A Link to the Past (U) [!]</option>
 <option value="snes/Legend of Zelda, The - Majora's Mask (USA).z64">Legend of Zelda, The - Majora's Mask (USA)</option>
-<option value="snes/Legend of Zelda, The - Ocarina of Time (USA) (Rev 2).z64">Legend of Zelda, The - Ocarina of Time (USA) (Rev 2)</option>
-<option value="snes/Legend of Zelda, The - Ocarina of Time - Master Quest (USA) (GameCube).z64">Legend of Zelda, The - Ocarina of Time - Master Quest (USA) (GameCube)</option>
 <option value="snes/LEGO Racers (USA) (En,Fr,De,Es,It,Nl,Sv,No,Da,Fi).z64">LEGO Racers (USA) (En,Fr,De,Es,It,Nl,Sv,No,Da,Fi)</option>
 <option value="snes/Lemmings (U) (V1.1) [!].smc">Lemmings (U) (V1.1) [!]</option>
 <option value="snes/Lemmings (USA) (PT-BR).smc">Lemmings (USA) (PT-BR)</option>
