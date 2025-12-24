@@ -1,0 +1,17 @@
+<option value="snes/Aging Cassette (Japan).sfc">Aging Cassette (Japan)</option>
+<option value="snes/Art Alive.bin">Art Alive</option>
+<option value="snes/Block Out.bin">Block Out</option>
+<option value="snes/BOMBER  .bin">BOMBER  </option>
+<option value="snes/CX4 (World) (Enhancement Chip).bin">CX4 (World) (Enhancement Chip)</option>
+<option value="snes/DOROPPU .bin">DOROPPU </option>
+<option value="snes/Galaxian.bin">Galaxian</option>
+<option value="snes/Game Genie (USA) (v2.0) (Unl).sfc">Game Genie (USA) (v2.0) (Unl)</option>
+<option value="snes/Game Saver (Europe) (v1.7) (Unl).sfc">Game Saver (Europe) (v1.7) (Unl)</option>
+<option value="snes/Meka Grappler X.bin">Meka Grappler X</option>
+<option value="snes/MQPong.bin">MQPong</option>
+<option value="snes/SegGala.bin">SegGala</option>
+<option value="snes/Super 8 (USA) (Unl).sfc">Super 8 (USA) (Unl)</option>
+<option value="snes/Super Mario Bros.bin">Super Mario Bros</option>
+<option value="snes/Super Star Force (U) [t1S].smc">Super Star Force (U) [t1S]</option>
+<option value="snes/Super X-Terminator 2 Sasuke (Japan) (Unl) [b].sfc">Super X-Terminator 2 Sasuke (Japan) (Unl) [b]</option>
+<option value="snes/UWOL    .bin">UWOL    </option>
