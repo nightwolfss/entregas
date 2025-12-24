@@ -1128,6 +1128,10 @@
 <option value="snes/Plok! (U) [!].smc">Plok! (U) [!]</option>
 <option value="snes/Pocky & Rocky (U) [!].smc">Pocky & Rocky (U) [!]</option>
 <option value="snes/Pocky & Rocky 2 (U) [!].smc">Pocky & Rocky 2 (U) [!]</option>
+<option value="snes/Pokemon - Crystal Version (USA, Europe) (Rev A).gbc">Pokemon - Crystal Version (USA, Europe) (Rev A)</option>
+<option value="snes/Pokemon Card GB2 - GR Dan Sanjou! (Japan).gbc">Pokemon Card GB2 - GR Dan Sanjou! (Japan)</option>
+<option value="snes/Pokemon de Panepon (Japan).gbc">Pokemon de Panepon (Japan)</option>
+<option value="snes/Pokemon Puzzle Challenge (USA).gbc">Pokemon Puzzle Challenge (USA)</option>
 <option value="snes/Pokemon Stadium.smc">Pokemon Stadium</option>
 <option value="snes/Populous (U) [!].smc">Populous (U) [!]</option>
 <option value="snes/Porky Pig's Haunted Holiday (U) [!].smc">Porky Pig's Haunted Holiday (U) [!]</option>
