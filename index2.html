@@ -20,6 +20,7 @@
             flex-direction: column;
             height: 100%;
             gap: 20px;
+            overflow-y: auto; /* Permite scroll se houver muitos consoles */
         }
         select {
             padding: 0.6em;
@@ -53,21 +54,21 @@
 </head>
 <body>
     <button 
-  style="
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9999;
-    width: 60px;
-    height: 60px;
-    background: url('refresh.avif') no-repeat center/contain;
-    border: none;
-    cursor: pointer;
-    opacity: 0.5;
-  "
-  onclick="location.reload();">
-</button>
+      style="
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        width: 60px;
+        height: 60px;
+        background: url('refresh.avif') no-repeat center/contain;
+        border: none;
+        cursor: pointer;
+        opacity: 0.5;
+      "
+      onclick="location.reload();">
+    </button>
 
     <div id="menu">
         <h1>Selecione o jogo</h1>
@@ -1703,46 +1704,32 @@
         async function run(file) {
             setTimeout(function(){
                 const parts = file.split("/");
-            const core = detectarCore(file);
+                const core = detectarCore(file);
 
-            if (!core) {
-                alert("Formato de ROM não suportado: " + file);
-                return;
-            }
+                if (!core) {
+                    alert("Formato de ROM não suportado: " + file);
+                    return;
+                }
 
-            if (currentScript) {
-                currentScript.remove();
-                currentScript = null;
-            }
-            if (window.EJS_emulator) {
-                try { window.EJS_emulator.stop(); } catch(e){}
-                window.EJS_emulator = null;
-            }
+                const display = document.getElementById("display");
+                display.style.display = "block";
+                display.innerHTML = "<div id='game'></div>";
 
-            // Mostra container do jogo
-            const display = document.getElementById("display");
-            display.style.display = "block";
-            display.innerHTML = "<div id='game'></div>";
+                const menu = document.getElementById("menu");
+                if (menu) menu.remove();
 
-            // Remove menu
-            const menu = document.getElementById("menu");
-            if (menu) menu.remove();
+                window.EJS_player = "#game";
+                window.EJS_gameName = parts[parts.length-1];
+                window.EJS_gameUrl = file;
+                window.EJS_core = core;
+                window.EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
+                window.EJS_startOnLoaded = true;
+                window.EJS_disableDatabases = true;
 
-            // Config EmulatorJS
-            window.EJS_player = "#game";
-            window.EJS_gameName = parts[parts.length-1];
-            window.EJS_biosUrl = "";
-            window.EJS_gameUrl = file;
-            window.EJS_core = core;
-            window.EJS_pathtodata = "https://cdn.emulatorjs.org/stable/data/";
-            window.EJS_startOnLoaded = true;
-            window.EJS_disableDatabases = true;
-            currentScript = document.createElement("script");
-            currentScript.src = "data/loader.js";
-            document.body.appendChild(currentScript);
-
-            },500);
-            
+                currentScript = document.createElement("script");
+                currentScript.src = "data/loader.js";
+                document.body.appendChild(currentScript);
+            }, 500);
         }
 
         window.addEventListener("DOMContentLoaded", () => {
@@ -1761,17 +1748,25 @@
             mainSelect.remove();
 
             for (const core in grupos) {
+                // EXIBE QUANTIDADE: Criamos o título com a contagem do array
                 const h2 = document.createElement("h2");
-                h2.textContent = core.toUpperCase();
+                h2.textContent = `${core.toUpperCase()} (${grupos[core].length})`;
                 menu.appendChild(h2);
 
                 const select = document.createElement("select");
+                
+                // OPÇÃO PADRÃO: Criamos o "-- escolha --"
                 const empty = document.createElement("option");
                 empty.value = "";
                 empty.textContent = "-- escolha --";
+                empty.selected = true; // Garante que comece selecionado
                 select.appendChild(empty);
 
-                grupos[core].forEach(opt => select.appendChild(opt));
+                grupos[core].forEach(opt => {
+                    // Clonamos a opção para evitar problemas de referência
+                    const clone = opt.cloneNode(true);
+                    select.appendChild(clone);
+                });
 
                 select.addEventListener("change", (e) => {
                     if (e.target.value) run(e.target.value);
