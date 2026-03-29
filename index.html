@@ -1,271 +1,287 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Rotas</title>
-    <!-- Bootstrap CSS -->
-    <link 
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" 
-        rel="stylesheet" 
-        integrity="sha384-6mBO4Q2QNjI6ta4JHIHQ7V8CB6xQhzQPpSg5Ngfxk03vJw/sJfbLw8cHYHfqgw6l" 
-        crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/dexie@3.2.2/dist/dexie.min.js"></script>
-    <style>
-        body {
-            background: linear-gradient(135deg, #1d3557, #457b9d);
-            color: #fff;
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .container {
-            background: #f1faee;
-            color: #1d3557;
-            border-radius: 10px;
-            padding: 2rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 600px;
-            margin: 2rem auto;
-        }
+<title>Roteirizador</title>
 
-        .btn-custom {
-            background-color: #d3c618;
-            border-radius: 5px;
-        }
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/dexie@3.2.2/dist/dexie.min.js"></script>
 
-        .btn-custom:hover {
-            background-color: #1d3557;
-        }
-
-        .input-group input {
-            height: 40px;
-            border-color: #457b9d;
-        }
-
-        .input-group input:focus {
-            border-color: #1d3557;
-            box-shadow: 0 0 5px rgba(29, 53, 87, 0.5);
-        }
-
-        .input-group {
-            margin-bottom: 1rem;
-        }
-
-        .historico {
-            margin-top: 2rem;
-            background-color: #e9ecef;
-            padding: 1rem;
-            border-radius: 8px;
-        }
-
-        .historico h4 {
-            margin-bottom: 1rem;
-        }
-
-        .historico ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        .historico li {
-            margin-bottom: 0.5rem;
-            background-color: #f1f1f1;
-            padding: 0.5rem;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .flex {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            /* margin: 10px; */
-        }
-        
-        .colunas {
-            flex-direction: row;
-        }
-    </style>
+<style>
+body { background: #f5f6f8; font-size: 14px; }
+.container { max-width: 800px; }
+.card { border: none; border-radius: 12px; }
+.entregue { text-decoration: line-through; opacity: 0.5; }
+.section-title { font-weight: 600; margin-bottom: 10px; }
+input.form-control { font-size: 13px; }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="flex">
-            <div class="colunas">
-                <h1 class="mb-4 text-center">Gerador de Rotas</h1>
-            </div>
-            <div class="colunas">
-                <button id="vai" class="btn btn-custom text-white btn-lg w-100 mb-3">Abrir Rota</button>
-            </div>
-        </div>
-        <div>
-            <span>Endereços e Produtos:</span>
-            <button id="btnMais" class="btn btn-success btn-sm ms-2">Adicionar</button>
-        </div>
-        <div id="enderecos" class="mt-4"></div>
 
-        <div class="historico">
-            <h4>Histórico de Endereços e Produtos</h4>
-            <ul id="historico-lista"></ul>
-            <button id="limparHistorico" class="btn btn-danger w-100 mt-3">Limpar Histórico</button>
-        </div>
-    </div>
+<div class="container mt-4">
 
-    <!-- Optional JavaScript -->
-    <!-- Bootstrap Bundle with Popper -->
-    <script 
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" 
-        integrity="sha384-HoA6KwCOZwcILUnF98UC/IdIwjqMxboNL2pSnDbpRh29V4x1JY3MEbcHzyhCXKkc" 
-        crossorigin="anonymous"></script>
+<div class="card p-3 mb-3">
+  <div class="section-title">Cadastro</div>
+  <div id="inputs"></div>
+  <button id="add" class="btn btn-outline-primary btn-sm mt-2">Adicionar</button>
+</div>
 
-    <script>
-        // Inicializa o Dexie.js para inputs
-        const dbInputs = new Dexie("RotaInputsDB");
-        dbInputs.version(1).stores({
-            enderecos: "++id, endereco, produto"
-        });
+<div class="card p-3 mb-3">
+  <div class="section-title">Entregador</div>
+  <div id="whats"></div>
+  <button id="addWhats" class="btn btn-outline-primary btn-sm mt-2">Adicionar número</button>
+</div>
 
-        // Inicializa o Dexie.js para o histórico
-        const dbHistorico = new Dexie("RotaHistoricoDB");
-        dbHistorico.version(1).stores({
-            historico: "++id, endereco, produto"
-        });
+<div class="card p-3">
+  <div class="d-flex justify-content-between">
+    <div class="section-title">Entregas</div>
+    <button id="send" class="btn btn-primary btn-sm">Enviar</button>
+  </div>
+  <ul id="list" class="list-group list-group-flush"></ul>
+</div>
 
-        // Função para carregar os dados dos inputs
-        async function carregarEnderecos() {
-            const registros = await dbInputs.enderecos.toArray();
-            registros.forEach(({ id, endereco, produto }) => adicionarLinha(endereco, produto, id));
-            carregarHistorico();
-        }
+</div>
 
-        // Função para adicionar uma linha ao DOM
-        function adicionarLinha(endereco = "", produto = "", id = null) {
-            const inputEnd = document.querySelector("#enderecos");
+<script>
 
-            const inputGroup = document.createElement("div");
-            inputGroup.className = "input-group";
-            inputGroup.dataset.id = id;
+// ================= DB =================
 
-            const inputId = document.createElement("input");
-            inputId.type = "text";
-            inputId.hidden = true;
-            inputId.placeholder = "id";
-            inputId.value = id;
-            inputGroup.appendChild(inputId);
+const dbHistorico = new Dexie("RotaHistoricoDB");
+dbHistorico.version(2).stores({
+  historico: "++id, endereco, produto, prioridade, entregue"
+});
 
-            const inputEndereco = document.createElement("input");
-            inputEndereco.type = "text";
-            inputEndereco.className = "form-control";
-            // inputEndereco.classList = "form-control flex";
-            inputEndereco.placeholder = "Endereço";
-            inputEndereco.value = endereco;
+const dbWhats = new Dexie("WhatsDB");
+dbWhats.version(1).stores({
+  numeros: "++id, numero, ativo"
+});
 
-            const inputProduto = document.createElement("input");
-            inputProduto.type = "text";
-            inputProduto.className = "form-control ms-2";
-            inputProduto.placeholder = "Produto";
-            inputProduto.value = produto;
+// ================= INPUT =================
 
-            const addButton = document.createElement("button");
-            addButton.className = "btn btn-primary ms-2";
-            addButton.innerHTML = "Adicionar ao Histórico";
-            addButton.addEventListener("click", async () => {
-                // Verifica se o endereço e produto já estão no histórico
-                const historicoExistente = await dbHistorico.historico.where("endereco").equals(inputEndereco.value).and(
-                    (item) => item.produto === inputProduto.value
-                ).toArray();
+function addInput(){
+  const div=document.createElement("div");
+  div.className="input-group mb-2";
 
-                if (historicoExistente.length > 0) {
-                    alert("Este endereço e produto já foram adicionados ao histórico.");
-                } else {
-                    const registroId = parseInt(inputGroup.dataset.id, 10);
-                    await dbInputs.enderecos.update(registroId, { endereco: inputEndereco.value, produto: inputProduto.value });
-                    salvarNoHistorico(inputEndereco.value, inputProduto.value);
-                }
-            });
+  div.innerHTML=`
+    <input class="form-control endereco" placeholder="Endereço">
+    <input class="form-control produto" placeholder="Produto">
+    <button class="btn btn-outline-success salvar">Salvar</button>
+    <button class="btn btn-outline-danger remover">×</button>
+  `;
 
-            const removeButton = document.createElement("button");
-            removeButton.className = "btn btn-danger ms-2";
-            removeButton.innerHTML = "Remover";
-            removeButton.addEventListener("click", async () => {
-                const registroId = parseInt(inputGroup.dataset.id, 10);
-                await dbInputs.enderecos.delete(registroId); // Remove do banco de dados dos inputs
-                inputGroup.remove(); // Remove do DOM
-                carregarHistorico(); // Atualiza o histórico
-            });
+  div.querySelector(".salvar").onclick=async()=>{
+    const e=div.querySelector(".endereco").value.trim();
+    const p=div.querySelector(".produto").value.trim();
+    if(!e)return;
 
-            inputGroup.appendChild(inputEndereco);
-            inputGroup.appendChild(inputProduto);
-            inputGroup.appendChild(addButton);
-            inputGroup.appendChild(removeButton);
+    await dbHistorico.historico.add({
+      endereco:e,
+      produto:p,
+      entregue:false
+    });
 
-            inputEnd.appendChild(inputGroup);
-        }
+    div.querySelector(".endereco").value="";
+    div.querySelector(".produto").value="";
 
-        // Adiciona nova linha e salva no banco
-        const botaoMais = document.querySelector("#btnMais");
-        botaoMais.addEventListener("click", async () => {
-            const id = await dbInputs.enderecos.add({ endereco: "", produto: "" });
-            adicionarLinha("", "", id);
-        });
+    loadList();
+  };
 
-        // Gera o link do Google Maps com os endereços
-        const vai = document.querySelector("#vai");
-        vai.addEventListener("click", async () => {
-            let aux = "";
-            document.querySelectorAll("#enderecos .input-group input:nth-child(2)").forEach(input => {
-                if (input.value) {
-                    aux += input.value + "/";
-                }
-            });
+  div.querySelector(".remover").onclick=()=>div.remove();
 
-            const link = "https://www.google.com.br/maps/dir/";
-            window.location.href = link + aux;
-        });
+  document.querySelector("#inputs").appendChild(div);
+}
 
-        // Função para carregar o histórico de endereços e produtos
-        async function carregarHistorico() {
-            const listaHistorico = document.querySelector("#historico-lista");
-            listaHistorico.innerHTML = "";
+document.querySelector("#add").onclick=addInput;
 
-            const registros = await dbHistorico.historico.toArray();
-            registros.forEach(({ id, endereco, produto }) => {
-                const li = document.createElement("li");
-                li.textContent = `${endereco} - Produto: ${produto}`;
+// ================= WHATS =================
 
-                const removeButton = document.createElement("button");
-                removeButton.className = "btn btn-danger btn-sm";
-                removeButton.textContent = "Remover";
-                removeButton.addEventListener("click", async () => {
-                    await dbHistorico.historico.delete(id);
-                    carregarHistorico(); // Atualiza o histórico
-                });
+async function loadWhats(){
+  const c=document.querySelector("#whats");
+  c.innerHTML="";
 
-                li.appendChild(removeButton);
-                listaHistorico.appendChild(li);
-            });
-        }
+  const lista=await dbWhats.numeros.toArray();
 
-        // Limpa o conteúdo visual do histórico, mas mantém os dados
-        const limparHistorico = document.querySelector("#limparHistorico");
-        limparHistorico.addEventListener("click", async () => {
-            const listaHistorico = document.querySelector("#historico-lista");
-            listaHistorico.innerHTML = ""; // Limpa a lista visual
-            await dbHistorico.historico.clear(); // Limpa os dados do histórico no banco Dexie
-        });
+  lista.forEach(n=>{
+    const row=document.createElement("div");
+    row.className="input-group mb-2";
 
-        // Função para salvar no histórico
-        async function salvarNoHistorico(endereco, produto) {
-            await dbHistorico.historico.add({ endereco, produto });
-            carregarHistorico(); // Atualiza o histórico visual
-        }
+    row.innerHTML=`
+      <div class="input-group-text">
+        <input type="radio" ${n.ativo?"checked":""}>
+      </div>
+      <input class="form-control numero" value="${n.numero}">
+      <button class="btn btn-outline-danger remover">×</button>
+    `;
 
-        // Chama para carregar os dados quando a página é carregada
-        carregarEnderecos();
-    </script>
+    row.querySelector("input").onclick=async()=>{
+      const all=await dbWhats.numeros.toArray();
+      for(let i of all){
+        await dbWhats.numeros.update(i.id,{ativo:false});
+      }
+      await dbWhats.numeros.update(n.id,{ativo:true});
+      loadWhats();
+    };
+
+    row.querySelector(".numero").onchange=async(e)=>{
+      await dbWhats.numeros.update(n.id,{numero:e.target.value});
+    };
+
+    row.querySelector(".remover").onclick=async()=>{
+      await dbWhats.numeros.delete(n.id);
+      loadWhats();
+    };
+
+    c.appendChild(row);
+  });
+}
+
+document.querySelector("#addWhats").onclick=async()=>{
+  await dbWhats.numeros.add({numero:"",ativo:false});
+  loadWhats();
+};
+
+// ================= LIST =================
+
+async function loadList(){
+  const ul=document.querySelector("#list");
+  ul.innerHTML="";
+
+  const dados=await dbHistorico.historico.toArray();
+
+  dados.forEach(r=>{
+    const li=document.createElement("li");
+    li.className="list-group-item d-flex align-items-center "+(r.entregue?"entregue":"");
+
+    li.innerHTML=`
+      <input type="checkbox" class="me-2 sel" ${r.entregue?"disabled":""}>
+      
+      <div class="flex-grow-1">
+        <input class="form-control form-control-sm endereco mb-1" value="${r.endereco}">
+        <input class="form-control form-control-sm produto" value="${r.produto || ""}">
+      </div>
+
+      <button class="btn btn-outline-primary btn-sm me-1 save">💾</button>
+      <button class="btn btn-outline-success btn-sm me-1 ok">✔</button>
+      <button class="btn btn-outline-danger btn-sm del">×</button>
+    `;
+
+    // salvar edição
+    li.querySelector(".save").onclick=async()=>{
+      const e=li.querySelector(".endereco").value.trim();
+      const p=li.querySelector(".produto").value.trim();
+
+      if(!e) return alert("Endereço obrigatório");
+
+      await dbHistorico.historico.update(r.id,{
+        endereco:e,
+        produto:p
+      });
+
+      loadList();
+    };
+
+    // toggle entregue
+    li.querySelector(".ok").onclick=async()=>{
+      await dbHistorico.historico.update(r.id,{
+        entregue:!r.entregue
+      });
+      loadList();
+    };
+
+    // remover
+    li.querySelector(".del").onclick=async()=>{
+      await dbHistorico.historico.delete(r.id);
+      loadList();
+    };
+
+    ul.appendChild(li);
+  });
+}
+
+// ================= GEO =================
+
+function geo(){
+  return new Promise((res,rej)=>{
+    navigator.geolocation.getCurrentPosition(
+      p=>res(`${p.coords.latitude},${p.coords.longitude}`),
+      ()=>rej()
+    );
+  });
+}
+
+// ================= ROUTE =================
+
+function pseudo(s){
+  let h=0;
+  for(let c of s)h=c.charCodeAt(0)+((h<<5)-h);
+  return {lat:h%90,lng:h%180};
+}
+
+function dist(a,b){
+  return Math.hypot(a.lat-b.lat,a.lng-b.lng);
+}
+
+function optimize(list,origin){
+  let r=[],cur=origin,rest=[...list];
+  while(rest.length){
+    let i=0,min=Infinity;
+    rest.forEach((e,idx)=>{
+      let d=dist(pseudo(cur),pseudo(e));
+      if(d<min){min=d;i=idx;}
+    });
+    cur=rest[i];
+    r.push(cur);
+    rest.splice(i,1);
+  }
+  return r;
+}
+
+// ================= SEND =================
+
+document.querySelector("#send").onclick=async()=>{
+  const whats=(await dbWhats.numeros.toArray()).find(w=>w.ativo);
+  if(!whats)return alert("Selecione entregador");
+
+  const selected=[],itens=[];
+
+  document.querySelectorAll("#list li").forEach(li=>{
+    const checkbox=li.querySelector(".sel");
+
+    if(checkbox.checked && !checkbox.disabled){
+      const e=li.querySelector(".endereco").value;
+      const p=li.querySelector(".produto").value;
+
+      selected.push(e);
+      itens.push(`${p} - ${e}`);
+    }
+  });
+
+  if(!selected.length)return alert("Selecione itens");
+
+  let origem;
+  try{origem=await geo();}catch{return alert("Permita localização");}
+
+  const rota=optimize(selected,origem);
+
+  const link="https://www.google.com/maps/dir/"+
+    encodeURIComponent(origem)+"/"+
+    rota.map(e=>encodeURIComponent(e)).join("/");
+
+  const msg=encodeURIComponent("Entregas:\n\n"+itens.join("\n")+"\n\nRota:\n"+link);
+
+  const num=whats.numero.replace(/\D/g,"");
+
+  window.open(`https://wa.me/${num}?text=${msg}`);
+};
+
+// INIT
+addInput();
+loadWhats();
+loadList();
+
+</script>
+
 </body>
 </html>
