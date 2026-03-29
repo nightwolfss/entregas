@@ -10,36 +10,84 @@
 <script src="https://cdn.jsdelivr.net/npm/dexie@3.2.2/dist/dexie.min.js"></script>
 
 <style>
-body { background: #f5f6f8; font-size: 14px; }
-.container { max-width: 800px; }
-.card { border: none; border-radius: 12px; }
-.entregue { text-decoration: line-through; opacity: 0.5; }
-.section-title { font-weight: 600; margin-bottom: 10px; }
-input.form-control { font-size: 13px; }
+body {
+  background: #f5f6f8;
+  font-size: 14px;
+}
+
+.container {
+  max-width: 850px;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.item-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.item-row input[type="text"] {
+  height: 30px;
+  font-size: 13px;
+}
+
+.item-row .endereco {
+  flex: 2;
+}
+
+.item-row .produto {
+  flex: 1.5;
+}
+
+.item-row button {
+  height: 30px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+
+.entregue {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.section-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
 </style>
 </head>
 <body>
 
 <div class="container mt-4">
 
+<!-- CADASTRO -->
 <div class="card p-3 mb-3">
   <div class="section-title">Cadastro</div>
   <div id="inputs"></div>
   <button id="add" class="btn btn-outline-primary btn-sm mt-2">Adicionar</button>
 </div>
 
+<!-- WHATS -->
 <div class="card p-3 mb-3">
   <div class="section-title">Entregador</div>
   <div id="whats"></div>
-  <button id="addWhats" class="btn btn-outline-primary btn-sm mt-2">Adicionar número</button>
+  <button id="addWhats" class="btn btn-outline-primary btn-sm mt-2">Adicionar</button>
 </div>
 
+<!-- LISTA -->
 <div class="card p-3">
-  <div class="d-flex justify-content-between">
-    <div class="section-title">Entregas</div>
-    <button id="send" class="btn btn-primary btn-sm">Enviar</button>
+  <div class="d-flex gap-2 mb-2">
+    <button id="send" class="btn btn-primary btn-sm">Enviar WhatsApp</button>
+    <button id="abrirMapa" class="btn btn-dark btn-sm">Ver rota</button>
   </div>
-  <ul id="list" class="list-group list-group-flush"></ul>
+  <div id="list"></div>
 </div>
 
 </div>
@@ -54,226 +102,198 @@ dbHistorico.version(2).stores({
 });
 
 const dbWhats = new Dexie("WhatsDB");
-dbWhats.version(1).stores({
-  numeros: "++id, numero, ativo"
+dbWhats.version(2).stores({
+  numeros: "++id, numero, nome, ativo"
 });
 
 // ================= INPUT =================
 
 function addInput(){
-  const div=document.createElement("div");
-  div.className="input-group mb-2";
+  const div = document.createElement("div");
+  div.className = "input-group mb-2";
 
-  div.innerHTML=`
+  div.innerHTML = `
     <input class="form-control endereco" placeholder="Endereço">
     <input class="form-control produto" placeholder="Produto">
     <button class="btn btn-outline-success salvar">Salvar</button>
-    <button class="btn btn-outline-danger remover">×</button>
   `;
 
-  div.querySelector(".salvar").onclick=async()=>{
-    const e=div.querySelector(".endereco").value.trim();
-    const p=div.querySelector(".produto").value.trim();
-    if(!e)return;
+  div.querySelector(".salvar").onclick = async () => {
+    const e = div.querySelector(".endereco").value.trim();
+    const p = div.querySelector(".produto").value.trim();
+    if (!e) return;
 
     await dbHistorico.historico.add({
-      endereco:e,
-      produto:p,
-      entregue:false
+      endereco: e,
+      produto: p,
+      entregue: false
     });
 
-    div.querySelector(".endereco").value="";
-    div.querySelector(".produto").value="";
+    div.querySelector(".endereco").value = "";
+    div.querySelector(".produto").value = "";
 
     loadList();
   };
 
-  div.querySelector(".remover").onclick=()=>div.remove();
-
-  document.querySelector("#inputs").appendChild(div);
+  inputs.appendChild(div);
 }
 
-document.querySelector("#add").onclick=addInput;
+add.onclick = addInput;
 
 // ================= WHATS =================
 
 async function loadWhats(){
-  const c=document.querySelector("#whats");
-  c.innerHTML="";
+  whats.innerHTML = "";
 
-  const lista=await dbWhats.numeros.toArray();
+  const lista = await dbWhats.numeros.toArray();
 
-  lista.forEach(n=>{
-    const row=document.createElement("div");
-    row.className="input-group mb-2";
+  lista.forEach(n => {
+    const row = document.createElement("div");
+    row.className = "input-group mb-2";
 
-    row.innerHTML=`
+    row.innerHTML = `
       <div class="input-group-text">
         <input type="radio" ${n.ativo?"checked":""}>
       </div>
-      <input class="form-control numero" value="${n.numero}">
-      <button class="btn btn-outline-danger remover">×</button>
+      <input class="form-control nome" placeholder="Nome" value="${n.nome||""}">
+      <input class="form-control numero" placeholder="Número" value="${n.numero}">
     `;
 
-    row.querySelector("input").onclick=async()=>{
-      const all=await dbWhats.numeros.toArray();
-      for(let i of all){
+    row.querySelector("input").onclick = async () => {
+      const all = await dbWhats.numeros.toArray();
+      for (let i of all) {
         await dbWhats.numeros.update(i.id,{ativo:false});
       }
       await dbWhats.numeros.update(n.id,{ativo:true});
       loadWhats();
     };
 
-    row.querySelector(".numero").onchange=async(e)=>{
-      await dbWhats.numeros.update(n.id,{numero:e.target.value});
-    };
+    row.querySelector(".nome").onchange = e =>
+      dbWhats.numeros.update(n.id,{nome:e.target.value});
 
-    row.querySelector(".remover").onclick=async()=>{
-      await dbWhats.numeros.delete(n.id);
-      loadWhats();
-    };
+    row.querySelector(".numero").onchange = e =>
+      dbWhats.numeros.update(n.id,{numero:e.target.value});
 
-    c.appendChild(row);
+    whats.appendChild(row);
   });
 }
 
-document.querySelector("#addWhats").onclick=async()=>{
-  await dbWhats.numeros.add({numero:"",ativo:false});
+addWhats.onclick = async () => {
+  await dbWhats.numeros.add({numero:"",nome:"",ativo:false});
   loadWhats();
 };
 
 // ================= LIST =================
 
 async function loadList(){
-  const ul=document.querySelector("#list");
-  ul.innerHTML="";
+  list.innerHTML = "";
 
-  const dados=await dbHistorico.historico.toArray();
+  const dados = await dbHistorico.historico.toArray();
 
-  dados.forEach(r=>{
-    const li=document.createElement("li");
-    li.className="list-group-item d-flex align-items-center "+(r.entregue?"entregue":"");
+  dados.forEach(r => {
+    const row = document.createElement("div");
+    row.className = "item-row " + (r.entregue?"entregue":"");
 
-    li.innerHTML=`
-      <input type="checkbox" class="me-2 sel" ${r.entregue?"disabled":""}>
-      
-      <div class="flex-grow-1">
-        <input class="form-control form-control-sm endereco mb-1" value="${r.endereco}">
-        <input class="form-control form-control-sm produto" value="${r.produto || ""}">
-      </div>
-
-      <button class="btn btn-outline-primary btn-sm me-1 save">💾</button>
-      <button class="btn btn-outline-success btn-sm me-1 ok">✔</button>
-      <button class="btn btn-outline-danger btn-sm del">×</button>
+    row.innerHTML = `
+      <input type="checkbox" class="sel" ${r.entregue?"disabled":""}>
+      <input class="form-control endereco" value="${r.endereco}">
+      <input class="form-control produto" value="${r.produto||""}">
+      <button class="btn btn-outline-primary save">💾</button>
+      <button class="btn btn-outline-success ok">✔</button>
+      <button class="btn btn-outline-danger del">×</button>
     `;
 
     // salvar edição
-    li.querySelector(".save").onclick=async()=>{
-      const e=li.querySelector(".endereco").value.trim();
-      const p=li.querySelector(".produto").value.trim();
-
-      if(!e) return alert("Endereço obrigatório");
-
+    row.querySelector(".save").onclick = async () => {
       await dbHistorico.historico.update(r.id,{
-        endereco:e,
-        produto:p
+        endereco: row.querySelector(".endereco").value,
+        produto: row.querySelector(".produto").value
       });
-
-      loadList();
     };
 
-    // toggle entregue
-    li.querySelector(".ok").onclick=async()=>{
+    // entregue
+    row.querySelector(".ok").onclick = async () => {
       await dbHistorico.historico.update(r.id,{
-        entregue:!r.entregue
+        entregue: !r.entregue
       });
       loadList();
     };
 
     // remover
-    li.querySelector(".del").onclick=async()=>{
+    row.querySelector(".del").onclick = async () => {
       await dbHistorico.historico.delete(r.id);
       loadList();
     };
 
-    ul.appendChild(li);
+    list.appendChild(row);
   });
 }
 
-// ================= GEO =================
+// ================= ROTA =================
 
-function geo(){
-  return new Promise((res,rej)=>{
-    navigator.geolocation.getCurrentPosition(
-      p=>res(`${p.coords.latitude},${p.coords.longitude}`),
-      ()=>rej()
-    );
-  });
-}
+async function gerarLink(selected){
 
-// ================= ROUTE =================
+  let origem;
 
-function pseudo(s){
-  let h=0;
-  for(let c of s)h=c.charCodeAt(0)+((h<<5)-h);
-  return {lat:h%90,lng:h%180};
-}
-
-function dist(a,b){
-  return Math.hypot(a.lat-b.lat,a.lng-b.lng);
-}
-
-function optimize(list,origin){
-  let r=[],cur=origin,rest=[...list];
-  while(rest.length){
-    let i=0,min=Infinity;
-    rest.forEach((e,idx)=>{
-      let d=dist(pseudo(cur),pseudo(e));
-      if(d<min){min=d;i=idx;}
+  try {
+    origem = await new Promise((res, rej) => {
+      navigator.geolocation.getCurrentPosition(
+        p => res(`${p.coords.latitude},${p.coords.longitude}`),
+        () => rej()
+      );
     });
-    cur=rest[i];
-    r.push(cur);
-    rest.splice(i,1);
+  } catch {
+    origem = selected[0];
   }
-  return r;
+
+  return "https://www.google.com/maps/dir/" +
+    [origem, ...selected].map(e=>encodeURIComponent(e)).join("/");
 }
 
-// ================= SEND =================
+// ================= BOTÕES =================
 
-document.querySelector("#send").onclick=async()=>{
-  const whats=(await dbWhats.numeros.toArray()).find(w=>w.ativo);
-  if(!whats)return alert("Selecione entregador");
+abrirMapa.onclick = async () => {
+  const selected = [];
 
-  const selected=[],itens=[];
+  document.querySelectorAll(".item-row").forEach(r=>{
+    const cb = r.querySelector(".sel");
+    if(cb.checked && !cb.disabled){
+      selected.push(r.querySelector(".endereco").value);
+    }
+  });
 
-  document.querySelectorAll("#list li").forEach(li=>{
-    const checkbox=li.querySelector(".sel");
+  if(!selected.length) return alert("Selecione itens");
 
-    if(checkbox.checked && !checkbox.disabled){
-      const e=li.querySelector(".endereco").value;
-      const p=li.querySelector(".produto").value;
+  window.open(await gerarLink(selected));
+};
 
+send.onclick = async () => {
+  const whatsSel = (await dbWhats.numeros.toArray()).find(w=>w.ativo);
+  if(!whatsSel) return alert("Selecione entregador");
+
+  const selected=[], itens=[];
+
+  document.querySelectorAll(".item-row").forEach(r=>{
+    const cb = r.querySelector(".sel");
+    if(cb.checked && !cb.disabled){
+      const e = r.querySelector(".endereco").value;
+      const p = r.querySelector(".produto").value;
       selected.push(e);
       itens.push(`${p} - ${e}`);
     }
   });
 
-  if(!selected.length)return alert("Selecione itens");
+  if(!selected.length) return alert("Selecione itens");
 
-  let origem;
-  try{origem=await geo();}catch{return alert("Permita localização");}
+  const link = await gerarLink(selected);
 
-  const rota=optimize(selected,origem);
+  const msg = encodeURIComponent(
+    `Entregador: ${whatsSel.nome||""}\n\n` +
+    itens.join("\n") +
+    "\n\nRota:\n" + link
+  );
 
-  const link="https://www.google.com/maps/dir/"+
-    encodeURIComponent(origem)+"/"+
-    rota.map(e=>encodeURIComponent(e)).join("/");
-
-  const msg=encodeURIComponent("Entregas:\n\n"+itens.join("\n")+"\n\nRota:\n"+link);
-
-  const num=whats.numero.replace(/\D/g,"");
-
-  window.open(`https://wa.me/${num}?text=${msg}`);
+  window.open(`https://wa.me/${whatsSel.numero}?text=${msg}`);
 };
 
 // INIT
